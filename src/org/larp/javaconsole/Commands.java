@@ -1,7 +1,5 @@
 package org.larp.javaconsole;
 import java.io.*;
-import java.nio.file.*;
-import java.util.Scanner;
 
 public class Commands {
 	
@@ -37,9 +35,23 @@ public class Commands {
 	      }
 	}
 	
-	public void echo (String params[]) {
+	public void echo (String params) {
 		System.out.println(params);
 		}
+	
+	public void echoat (String params1, String params2) {
+		File file = new File(params2);
+		Boolean bool = file.exists();
+		try {
+			if(!bool) file.createNewFile();
+			FileWriter fw = new FileWriter(file);
+			fw.write(params1 + "\n");
+			fw.flush();
+			fw.close();
+	} catch (Exception e){
+		e.printStackTrace();
+		}
+	}
 	
 	public void cd (){
 		
@@ -65,9 +77,9 @@ public class Commands {
 	}
 	
 	public void cat(String params){
-		try{
 		File file = new File(params);
 		boolean bool = file.exists();
+		try{
 		if (bool){
 		FileReader fr = new FileReader(file); 
 	    char [] a = new char[50];
@@ -76,10 +88,10 @@ public class Commands {
 	          System.out.print(c);
 	      fr.close();
 		} else {
-			System.out.println("File doesn't exists");
+			System.out.println(params + " is not a file or does not exist");
 		}
 		} catch (Exception e){
-			
+			e.printStackTrace();
 		}
 	}
 	

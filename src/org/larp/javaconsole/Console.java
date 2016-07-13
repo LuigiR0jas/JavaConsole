@@ -15,17 +15,24 @@ import java.util.Scanner;
 			while (true) {
 				System.out.print(username + "@" + directory + "$ ");
 				String CLI = input.nextLine();
-				String params [] = CLI.split(" ");
+				String params [] = CLI.split(" ", 2);
+				
 				
 				switch (params[0]) {
 					case "touch":
-						if (params.length <= 1) break;
+						if (params.length <= 1){
+							System.out.println("You must especify a file to create");
+							break;
+						}
 						cmds.touch(params[1]);
 						break;
 					case "echo":
-						if (params.length <= 1) break;
-						cmds.echo(params[1]);
-						break;
+						String arrayParams [] = params[1].split(">> ", 2);
+						if (arrayParams.length == 1){
+							cmds.echo(params[1]);
+						} else {
+							cmds.echoat(arrayParams[0], arrayParams[1]);
+						} break;
 					case "ls":
 						cmds.ls();
 						break;
@@ -39,6 +46,14 @@ import java.util.Scanner;
 						} else {
 						cmds.mkdir(params[1]);
 						break;
+						}
+					case "cat":
+						if (params.length <= 1){
+							System.out.println("You must especify a file to read");
+							break;
+						} else {
+						cmds.cat(params[1]);
+						break;	
 						}
 				}
 			}

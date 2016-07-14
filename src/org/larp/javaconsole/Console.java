@@ -1,5 +1,6 @@
 package org.larp.javaconsole;
 
+import java.nio.file.Files;
 import java.util.Scanner;
 
 	public class Console {
@@ -67,6 +68,28 @@ import java.util.Scanner;
 					case "help":
 						cmds.help(params[1]);
 						break;
+					case "mv":
+						String arrayParams2 [] = params[1].split(" ", 2);
+						if (arrayParams2.length == 1){
+							System.out.println("You must especify correct arguments");
+						} else {
+							cmds.mv(arrayParams2[0], arrayParams2[1]);
+						} 
+						break;			
+					case "cp":
+						String arrayParams3 [] = params[1].split(" ", 2);
+						if (arrayParams3.length == 1){
+							System.out.println("You must especify correct arguments");
+						} else {
+							String params1 = arrayParams3[0];
+							String params2 = arrayParams3[1];
+							
+							File source = new File(arrayParams[0]);
+							File dest = new File(params2);
+							cmds.cp(source, dest);
+						} 
+						break;				
+						
 					
 					
 					

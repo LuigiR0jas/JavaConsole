@@ -77,7 +77,7 @@ public class Commands {
 			}
 			break;
 		default:
-			File dir = new File(System.getProperty("user.dir") + "/" + params);
+			File dir = new File(System.getProperty("user.dir") + separator + params);
 			Boolean bool = dir.isDirectory();
 			Boolean bool2 = dir.isFile();
 			String dir2 = dir.toString();
@@ -114,6 +114,8 @@ public class Commands {
 	public void cat(String params){
 		File file = new File(params);
 		boolean bool = file.exists();
+		System.out.println(bool);
+		
 		try{
 		if (bool){
 		FileReader fr = new FileReader(file); 
@@ -135,12 +137,39 @@ public class Commands {
 		
 	}
 	
-	public void mv(){
-		
+	public void mv(String params1, String params2){
+		try{
+			
+	    	   File file =new File(System.getProperty("user.dir") + separator + params1);
+	    	   File file2 =new File(params2);
+	    	   Boolean bool1 = file.exists();
+	    	   Boolean bool2 = file2.exists();
+	    		if (bool1 && bool2){
+	    			 file.renameTo(new File(file2 + separator + file.getName()));
+	    		} else if(bool1 && !bool2) {
+	    			System.out.println("The given path does not exist");
+	    		} else if (!bool1 && bool2){
+	    			System.out.println("The given file does not exist");
+	    		} else {
+	    			System.out.println("The given path nor the given file does not exist");
+	    		}
+	    	}catch(Exception e){
+	    		e.printStackTrace();
+	    	}
 	}
 	
-	public void rm(){
-		
+	public void rm(String params){
+		try{
+			File file = new File(System.getProperty("user.dir") + separator+ params);
+			Boolean bool = file.exists();
+			if (bool){
+				file.delete();
+			} else{
+				System.out.println("rm: cannot remove " + params +": No such file or directory");
+			}
+		} catch (Exception e){
+			e.printStackTrace();
+		}
 	}
 	
 	public void whoami(){

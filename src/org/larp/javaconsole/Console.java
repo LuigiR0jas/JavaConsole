@@ -2,6 +2,10 @@ package org.larp.javaconsole;
 
 import java.nio.file.Files;
 import java.util.Scanner;
+import java.io.*;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
 
 	public class Console {
 		
@@ -10,7 +14,7 @@ import java.util.Scanner;
 		private String username = System.getProperty("user.name");
 
 		
-		public void start () {
+		public void start () throws IOException {
 			cmds.cd("cd");
 			while (true) {
 				System.out.print(username + "@" + System.getProperty("user.dir") + "$ ");
@@ -81,11 +85,8 @@ import java.util.Scanner;
 						if (arrayParams3.length == 1){
 							System.out.println("You must especify correct arguments");
 						} else {
-							String params1 = arrayParams3[0];
-							String params2 = arrayParams3[1];
-							
-							File source = new File(arrayParams[0]);
-							File dest = new File(params2);
+							Path source = Paths.get(arrayParams3[0]);
+                                                        Path dest = Paths.get(arrayParams3[1]);
 							cmds.cp(source, dest);
 						} 
 						break;				

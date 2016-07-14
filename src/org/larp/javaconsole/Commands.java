@@ -1,5 +1,9 @@
 package org.larp.javaconsole;
 import java.io.*;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
+import java.nio.file.Path;
+import static java.nio.file.StandardCopyOption.*;
 
 public class Commands {
 	
@@ -112,7 +116,9 @@ public class Commands {
 	}
 	
 	public void cat(String params){
-		File file = new File(params);
+            System.out.println("MY PARAMS ARE" + params);
+		File file = new File(System.getProperty("user.dir") + separator + params);
+                System.out.println(file);
 		boolean bool = file.exists();
 		System.out.println(bool);
 		
@@ -133,8 +139,8 @@ public class Commands {
 		}
 	}
 	
-	public void cp(){
-		
+	public void cp(Path source, Path dest)throws IOException {
+		Files.copy(source, dest, StandardCopyOption.COPY_ATTRIBUTES);
 	}
 	
 	public void mv(String params1, String params2){

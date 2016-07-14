@@ -7,17 +7,14 @@ import java.util.Scanner;
 		private Scanner input = new Scanner (System.in);
 		private Commands cmds = new Commands();
 		private String username = System.getProperty("user.name");
-		private String directory = System.getProperty("user.dir");
 
 		
 		public void start () {
-			
+			cmds.cd("cd");
 			while (true) {
-				System.out.print(username + "@" + directory + "$ ");
+				System.out.print(username + "@" + System.getProperty("user.dir") + "$ ");
 				String CLI = input.nextLine();
 				String params [] = CLI.split(" ", 2);
-				
-				
 				switch (params[0]) {
 					case "touch":
 						if (params.length <= 1){
@@ -25,20 +22,21 @@ import java.util.Scanner;
 							break;
 						}
 						cmds.touch(params[1]);
-						break;
+						break;						
 					case "echo":
 						String arrayParams [] = params[1].split(">> ", 2);
 						if (arrayParams.length == 1){
 							cmds.echo(params[1]);
 						} else {
-							cmds.echoat(arrayParams[0], arrayParams[1]);
-						} break;
+							cmds.echo(arrayParams[0], arrayParams[1]);
+						} 
+						break;																		
 					case "ls":
 						cmds.ls();
-						break;
+						break;												
 					case "pwd":
 						cmds.pwd();
-						break;
+						break;											
 					case "mkdir":
 						if(params.length <= 1){
 							System.out.println("You must especify a directory to create");
@@ -46,7 +44,7 @@ import java.util.Scanner;
 						} else {
 						cmds.mkdir(params[1]);
 						break;
-						}
+						}												
 					case "cat":
 						if (params.length <= 1){
 							System.out.println("You must especify a file to read");
@@ -54,10 +52,29 @@ import java.util.Scanner;
 						} else {
 						cmds.cat(params[1]);
 						break;	
-						}
+						}												
+					case "cd":
+						if(params.length == 1){
+							cmds.cd(params[0]);
+							break;
+						} else {
+							cmds.cd(params[1]);
+							break;
+						}						
+					case "whoami":
+						cmds.whoami();
+						break;
+					case "help":
+						cmds.help(params[1]);
+						break;
+					
+					
+					
+					
+						
+						
+						
+					}
 				}
-			}
-			
+			}	
 		}
-		
-	}

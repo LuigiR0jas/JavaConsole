@@ -3,8 +3,11 @@ import java.io.*;
 
 public class Commands {
 	
-	private String directory = System.getProperty("user.dir");
 	private String separator = System.getProperty("file.separator");
+	private String home = System.getProperty("user.home");
+	private String OS = System.getProperty("os.name");
+	private String OSversion = System.getProperty("os.version");
+	
 	
 	public void touch (String filename){
 		boolean bool = false;
@@ -24,7 +27,7 @@ public class Commands {
 	      File file = null;
 	      String[] paths;
 	      try{      
-	         file = new File(directory);                        
+	         file = new File(System.getProperty("user.dir"));                        
 	         paths = file.list();	            
 	         for(String path:paths)
 	         {
@@ -39,32 +42,64 @@ public class Commands {
 		System.out.println(params);
 		}
 	
-	public void echoat (String params1, String params2) {
+	public void echo (String params1, String params2) {
 		File file = new File(params2);
 		Boolean bool = file.exists();
 		try {
 			if(!bool) file.createNewFile();
 			FileWriter fw = new FileWriter(file);
-			fw.write(params1 + "\n");
-			fw.flush();
-			fw.close();
+			BufferedWriter bw = new BufferedWriter(fw);
+			bw.write(params1);
+			bw.flush();
+			bw.close();
 	} catch (Exception e){
 		e.printStackTrace();
 		}
 	}
 	
-	public void cd (){
-		
+	public void cd (String params){
+		switch(params){
+		case "cd":
+		    System.setProperty("user.dir", home);
+			break;
+		case " ":
+			System.out.println(home);
+			System.setProperty("user.dir", home);
+			break;
+		case ".":
+			break;
+		case "..":
+			if (System.getProperty("user.dir") == "/"){                // <-----PREGUNTAR!
+				break;
+			} else {
+				File currentDir = new File(System.getProperty("user.dir"));
+				System.setProperty("user.dir", currentDir.getParent());
+			}
+			break;
+		default:
+			File dir = new File(System.getProperty("user.dir") + "/" + params);
+			Boolean bool = dir.isDirectory();
+			Boolean bool2 = dir.isFile();
+			String dir2 = dir.toString();
+			if (bool){
+				System.setProperty("user.dir", dir2);
+			} else if(bool2) {
+				System.out.println("-bash: cd: " +  params + ": " + " Not a directory");
+			} else {
+				System.out.println("-bash: cd: " + params +  ": " + " No such file or directory");
+			}
+			break; 
+		} 
 	}
 	
 	public void pwd (){
-		System.out.println(directory);
+		System.out.println(System.getProperty("user.dir"));
 	}
 	
 	public void mkdir(String params){
 		boolean bool = false;
 		try{
-			File newDir = new File(directory + separator + params);
+			File newDir = new File(System.getProperty("user.dir")+ separator + params);
 			bool = newDir.exists();
 			if (!bool){
 			newDir.mkdir();
@@ -82,11 +117,12 @@ public class Commands {
 		try{
 		if (bool){
 		FileReader fr = new FileReader(file); 
-	    char [] a = new char[50];
-	      fr.read(a); 
-	      for(char c : a)
-	          System.out.print(c);
-	      fr.close();
+		BufferedReader br = new BufferedReader(fr);
+	    String line = br.readLine();
+	    while(line != null){
+	    	System.out.println(line);
+	    	line = br.readLine();
+	    }
 		} else {
 			System.out.println(params + " is not a file or does not exist");
 		}
@@ -105,5 +141,15 @@ public class Commands {
 	
 	public void rm(){
 		
+	}
+	
+	public void whoami(){
+		System.out.println(System.getProperty("user.name"));
+	}
+	
+	public void help(String params){
+		System.out.println("LuigiR0jas_'s JavaConsole GNU bash emulator, version 1.0 for " + OS + OSversion);
+		System.out.println("\nThese shell commands are defined internally.  Type 'help' to see this list.");
+		System.out.println("\nType 'help name' to find out more about the function 'name'");
 	}
 }

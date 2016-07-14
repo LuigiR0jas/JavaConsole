@@ -1,9 +1,8 @@
-package org.larp.javaconsole;
+package org.larp.JavaConsoleLast;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.Path;
-import static java.nio.file.StandardCopyOption.*;
 
 public class Commands {
 	
@@ -153,11 +152,11 @@ public class Commands {
 	    		if (bool1 && bool2){
 	    			 file.renameTo(new File(file2 + separator + file.getName()));
 	    		} else if(bool1 && !bool2) {
-	    			System.out.println("The given path does not exist");
+	    			System.out.println("mv: cannot stat: The given path does not exist");
 	    		} else if (!bool1 && bool2){
-	    			System.out.println("The given file does not exist");
+	    			System.out.println("mv: cannot stat: The given file does not exist");
 	    		} else {
-	    			System.out.println("The given path nor the given file does not exist");
+	    			System.out.println("mv: cannot stat: The given path nor the given file does not exist");
 	    		}
 	    	}catch(Exception e){
 	    		e.printStackTrace();
@@ -183,8 +182,50 @@ public class Commands {
 	}
 	
 	public void help(String params){
-		System.out.println("LuigiR0jas_'s JavaConsole GNU bash emulator, version 1.0 for " + OS + OSversion);
-		System.out.println("\nThese shell commands are defined internally.  Type 'help' to see this list.");
-		System.out.println("\nType 'help name' to find out more about the function 'name'");
+		switch(params){
+		case "help":
+			System.out.println("LuigiR0jas's JavaConsole GNU bash emulator, version 1.0 for " + OS + OSversion);
+			System.out.println("These shell commands are defined internally.  Type 'help' to see this list.");
+			System.out.println("Type 'help name' to find out more about the function 'name'");	
+			System.out.println("Commands available: \n\t\thelp\t\techo\t\tcat\n\t\tls\t\tpwd\t\tcd\n\t\tcp\t\trm\t\tmv\n\t\twhoami\t\tmkdir\t\ttouch");
+			break;
+		case "echo":
+			System.out.println("echo: echo [args] [>>] [destination file]\n		Write arguments to the standard output, or pipes them if defined to a provided destination file.");
+			break;
+		case "cat":
+			System.out.println("cat: cat [file]\n	Print on the standard output");
+			break;
+		case "ls":
+			System.out.println("ls: ls\n	List directory contents");
+			break;
+		case "pwd":
+			System.out.println("pwd: pwd\n	Print the name of the current working directory.");
+			break;
+		case "cd":
+			System.out.println("cd: cd [dir]\n	'..' is processed by removing the immediately previous pathname component back to a slash or the beginning of DIR.");
+			break;	
+		case "cp":
+			System.out.println("cp: cp [file] [absolute path of destination]\n	Copy files to a provided directory");
+			break;
+		case "rm":
+			System.out.println("rm: rm [file]\n		Remove file");
+			break;
+		case "mv":
+			System.out.println("mv: mv [file] [absolute path of destination]\n	Move (rename) files");
+			break;
+		case "whoami":
+			System.out.println("whoami: whoami\n	Print effective userid");
+			break;
+		case "mkdir":
+			System.out.println("mkdir: mkdir [dir]\n	Creates directory in current working directory.");
+			break;
+		case "touch":
+			System.out.println("touch: touch [file]\n	Creates file in current working directory.");
+			break;
+		default:
+			System.out.println(params + ": command not found");
+			break;
+		}
+	
 	}
 }

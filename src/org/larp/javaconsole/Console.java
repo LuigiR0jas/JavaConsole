@@ -1,6 +1,5 @@
-package org.larp.javaconsole;
+package org.larp.JavaConsoleLast;
 
-import java.nio.file.Files;
 import java.util.Scanner;
 import java.io.*;
 import java.nio.file.Path;
@@ -70,34 +69,41 @@ import java.nio.file.Paths;
 						cmds.whoami();
 						break;
 					case "help":
-						cmds.help(params[1]);
+						if (params.length <= 1){
+							cmds.help(params[0]);
+						} else {
+							cmds.help(params[1]);
+						}
 						break;
 					case "mv":
-						String arrayParams2 [] = params[1].split(" ", 2);
-						if (arrayParams2.length == 1){
-							System.out.println("You must especify correct arguments");
+						if (params.length == 1){
+							System.out.println("mv: missing file operand");
 						} else {
+							String arrayParams2 [] = params[1].split(" ", 2);
+							if (arrayParams2.length == 1){
+								System.out.println("mv: missing destination file operand");
+							} else {
 							cmds.mv(arrayParams2[0], arrayParams2[1]);
-						} 
+							} 
+						}
 						break;			
 					case "cp":
-						String arrayParams3 [] = params[1].split(" ", 2);
-						if (arrayParams3.length == 1){
-							System.out.println("You must especify correct arguments");
+						if (params.length == 1){
+							System.out.println("cp: missing file operands");
 						} else {
-							Path source = Paths.get(arrayParams3[0]);
-                                                        Path dest = Paths.get(arrayParams3[1]);
-							cmds.cp(source, dest);
+							String arrayParams3 [] = params[1].split(" ", 2);
+							if (arrayParams3.length == 1){
+								System.out.println("cp: missing destination file operand");
+							} else {
+								Path source = Paths.get(arrayParams3[0]);
+								Path dest = Paths.get(arrayParams3[1]);
+								cmds.cp(source, dest);
+							}
 						} 
-						break;				
-						
-					
-					
-					
-					
-						
-						
-						
+						break;
+					default:
+						System.out.println(params[0] + ": command not found");
+						break;
 					}
 				}
 			}	
